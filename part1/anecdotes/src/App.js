@@ -29,7 +29,7 @@ const App = () => {
     setVote(copyVote);
   };
 
-  const maxIndex = vote.indexOf(Math.math(...vote));
+  const maxIndex = vote.indexOf(Math.max(...vote));
 
   return (
     <>
