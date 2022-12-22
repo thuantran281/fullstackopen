@@ -40,6 +40,14 @@ const Course = ({ course }) => {
   );
 };
 
+const Total = ({ sum }) => {
+  return (
+    <>
+      <b>Total of {sum} exercises</b>
+    </>
+  );
+};
+
 const App = () => {
   const course = {
     id: 1,
@@ -63,7 +71,19 @@ const App = () => {
     ],
   };
 
-  return <Course course={course} />;
+  return (
+    <div>
+      <Course course={course} />
+      <Total
+        sum={
+          course.parts[0].exercises +
+          course.parts[1].exercises +
+          course.parts[2].exercises +
+          course.parts[3].exercises
+        }
+      />
+    </div>
+  );
 };
 
 export default App;
