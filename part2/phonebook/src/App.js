@@ -1,4 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import Filter from "./Filter";
+import PersonForm from "./PersonForm";
+import Persons from "./Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -9,20 +12,20 @@ const App = () => {
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
-  const [filterName, setFilterName] = useState([]);
+  const [filterName, setFilterName] = useState("");
 
   const handleNameChange = (event) => {
-    // console.log(event.target.value);
+    console.log(event.target.value);
     setNewName(event.target.value);
   };
 
   const handleNumberChange = (event) => {
-    // console.log(event.target.value);
+    console.log(event.target.value);
     setNewNumber(event.target.value);
   };
 
   const handleFilterChange = (event) => {
-    // console.log(event.target.value);
+    console.log(event.target.value);
     setFilterName(event.target.value);
   };
 
@@ -48,40 +51,17 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <p>
-        filter shown with{" "}
-        <input value={filterName} onChange={handleFilterChange} />
-      </p>
+      <Filter filterName={filterName} handleFilterChange={handleFilterChange} />
       <h1>add a new</h1>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        addName={addName}
+        newName={newName}
+        newNumber={newNumber}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+      />
       <h2>Numbers</h2>
-      <ul>
-        {filterName
-          ? persons
-              .filter((person) =>
-                person.name.toLowerCase().includes(filterName)
-              )
-              .map((person) => (
-                <li key={person.id}>
-                  {person.name} {person.number}
-                </li>
-              ))
-          : persons.map((person) => (
-              <li key={person.id}>
-                {person.name} {person.number}
-              </li>
-            ))}
-      </ul>
+      <Persons filterName={filterName} persons={persons} />
     </div>
   );
 };
