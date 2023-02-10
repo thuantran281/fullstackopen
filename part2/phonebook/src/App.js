@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import Filter from "./Filter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
@@ -13,6 +14,17 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
+
+  useEffect(() => {
+    // console.log("effect");
+
+    axios
+      .get("http://localhost:3001/persons")
+      .then((response) => {
+        // console.log("promise full-filled!");
+        setPersons(response.data);
+      })
+  }, [])
 
   const handleNameChange = (event) => {
     console.log(event.target.value);
