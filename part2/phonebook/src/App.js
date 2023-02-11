@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import Filter from "./Filter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
@@ -18,13 +18,11 @@ const App = () => {
   useEffect(() => {
     // console.log("effect");
 
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => {
-        // console.log("promise full-filled!");
-        setPersons(response.data);
-      })
-  }, [])
+    axios.get("http://localhost:3001/persons").then((response) => {
+      // console.log("promise full-filled!");
+      setPersons(response.data);
+    });
+  }, []);
 
   const handleNameChange = (event) => {
     console.log(event.target.value);
@@ -54,10 +52,15 @@ const App = () => {
         number: newNumber,
         id: persons.length + 1,
       };
-      setPersons(persons.concat(nameObject));
+
+      axios
+        .post("http://localhost:3001/persons", nameObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setNewName("");
+          setNewNumber("");
+        });
     }
-    setNewName("");
-    setNewNumber("");
   };
 
   return (
