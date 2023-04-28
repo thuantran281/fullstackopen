@@ -1,10 +1,10 @@
 import React from "react";
 
-const Filter = (props) => {
+const Filter = ({ filterName, handleFilterChange }) => {
   return (
     <div>
       filter shown with{" "}
-      <input value={props.filterName} onChange={props.handleFilterChange} />
+      <input value={filterName} onChange={handleFilterChange} />
     </div>
   );
 };

@@ -1,19 +1,17 @@
 import React from "react";
 
-const Persons = (props) => {
+const Persons = ({ filterName, persons }) => {
   return (
     <div>
-      {props.filterName
-        ? props.persons
-            .filter((person) =>
-              person.name.toLowerCase().includes(props.filterName)
-            )
+      {filterName
+        ? persons
+            .filter((person) => person.name.toLowerCase().includes(filterName))
             .map((person) => (
               <li key={person.id}>
                 {person.name} {person.number}
               </li>
             ))
-        : props.persons.map((person) => (
+        : persons.map((person) => (
             <li key={person.id}>
               {person.name} {person.number}
             </li>
