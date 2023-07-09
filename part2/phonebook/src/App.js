@@ -44,7 +44,28 @@ const App = () => {
     const nameFound = persons.find((person) => person.name === newName);
 
     if (nameFound) {
-      alert(`${newName} is already added to phonebook`);
+      if (
+        window.confirm(
+          `${nameFound.name} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const updatedPerson = { ...nameFound, number: newNumber };
+
+        personService
+          .update(nameFound.id, updatedPerson)
+          .then((updatedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id === nameFound.id ? updatedPerson : person
+              )
+            );
+            setNewName("");
+            setNewNumber("");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     } else {
       const nameObject = {
         name: newName,
@@ -52,11 +73,16 @@ const App = () => {
         id: persons.length + 1,
       };
 
-      personService.create(nameObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName("");
-        setNewNumber("");
-      });
+      personService
+        .create(nameObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
