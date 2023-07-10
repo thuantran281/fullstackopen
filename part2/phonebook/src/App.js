@@ -119,6 +119,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter filterName={filterName} handleFilterChange={handleFilterChange} />
+      <Notification message={message} />
       <h1>add a new</h1>
       <PersonForm
         addName={addName}
