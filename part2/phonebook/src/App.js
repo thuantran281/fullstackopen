@@ -4,6 +4,7 @@ import Filter from "./Filter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
 import personService from "./services/persons";
+import Notification from "./Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -15,6 +16,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     // console.log("effect");
@@ -61,9 +63,21 @@ const App = () => {
             );
             setNewName("");
             setNewNumber("");
+            setMessage(
+              `${nameFound.name}'s phone number has been updated successfully.`
+            );
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
           })
           .catch((error) => {
-            console.log(error);
+            setMessage(
+              `${nameFound.name} information has already been removed from the server`
+            );
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+            setPersons(persons.filter((person) => person.id !== nameFound.id));
           });
       }
     } else {
@@ -79,6 +93,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson));
           setNewName("");
           setNewNumber("");
+          setMessage(`Added ${nameObject.name}`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
         })
         .catch((error) => {
           console.log(error);
