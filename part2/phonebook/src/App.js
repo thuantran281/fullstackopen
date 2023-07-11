@@ -63,17 +63,19 @@ const App = () => {
             );
             setNewName("");
             setNewNumber("");
-            setMessage(
-              `${nameFound.name}'s phone number has been updated successfully.`
-            );
+            setMessage({
+              message: `${nameFound.name}'s phone number has been updated successfully.`,
+              type: "success",
+            });
             setTimeout(() => {
               setMessage(null);
             }, 5000);
           })
           .catch((error) => {
-            setMessage(
-              `${nameFound.name} information has already been removed from the server`
-            );
+            setMessage({
+              message: `${nameFound.name} information has already been removed from the server.`,
+              type: "error",
+            });
             setTimeout(() => {
               setMessage(null);
             }, 5000);
@@ -93,7 +95,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson));
           setNewName("");
           setNewNumber("");
-          setMessage(`Added ${nameObject.name}`);
+          setMessage({
+            message: `Added ${nameObject.name}`,
+            type: "success",
+          });
           setTimeout(() => {
             setMessage(null);
           }, 5000);
@@ -104,13 +109,33 @@ const App = () => {
     }
   };
 
-  const handlePersonDelete = (id, name) => {
-    if (window.confirm(`Delete ${name}?`)) {
+  const handlePersonDelete = (id) => {
+    const personToFind = persons.find((person) => person.id === id);
+
+    if (window.confirm(`Delete ${personToFind.name}?`)) {
       personService
         .deleteName(id)
-        .then(setPersons(persons.filter((person) => person.id !== id)))
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== personToFind.id));
+          setNewName("");
+          setNewNumber("");
+          setMessage({
+            message: `Delete ${personToFind.name} from the phonebook!`,
+            type: "error",
+          });
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
         .catch((error) => {
-          console.log(error);
+          setMessage({
+            message: `Information of ${personToFind.name} has already been removed from the server.`,
+            type: "error",
+          });
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+          setPersons(persons.filter((person) => person.id !== personToFind.id));
         });
     }
   };
@@ -119,7 +144,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter filterName={filterName} handleFilterChange={handleFilterChange} />
-      <Notification message={message} />
+      <Notification message={message?.message} type={message?.type}/>
       <h1>add a new</h1>
       <PersonForm
         addName={addName}
