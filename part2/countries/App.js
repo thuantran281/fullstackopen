@@ -16,7 +16,7 @@ const App = () => {
   }, []);
 
   const filteredCountries = countries.filter(
-    (country) => country.name.common.toLowerCase() === filter.toLowerCase()
+    (country) => country.name.common.toLowerCase().includes(filter.toLowerCase())
   );
 
   const onSearch = (event) => {
