@@ -26,4 +26,4 @@ const Countries = ({ filteredCountries }) => {
   }
 };
 
-export default Countries;
+export default Country;

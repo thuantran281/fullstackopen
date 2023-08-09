@@ -26,4 +26,4 @@ const FilterCountry = ({ filteredCountries }) => {
   }
 };
 
-export default FilterCountry;
+export default Filter;
