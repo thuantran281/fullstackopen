@@ -1,6 +1,6 @@
 import React from "react";
 
-const FilterCountry = ({ filteredCountries }) => {
+const Filter = ({ filteredCountries, countryShowButton }) => {
   if (filteredCountries.length === 0) {
     return null;
   }
@@ -15,7 +15,10 @@ const FilterCountry = ({ filteredCountries }) => {
 
   if (filteredCountries.length > 1 && filteredCountries.length <= 10) {
     return filteredCountries.map((country) => (
-      <li key={country.name.common}>{country.name.common}</li>
+      <li key={country.name.common}>
+        {country.name.common}
+        <button onClick={() => countryShowButton(country)}>Show</button>
+      </li>
     ));
   }
 

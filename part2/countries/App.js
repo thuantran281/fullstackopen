@@ -6,6 +6,7 @@ import Countries from "./Countries";
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [filter, setFilter] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
     axios
@@ -15,13 +16,18 @@ const App = () => {
       });
   }, []);
 
-  const filteredCountries = countries.filter(
-    (country) => country.name.common.toLowerCase().includes(filter.toLowerCase())
+  const filteredCountries = countries.filter((country) =>
+    country.name.common.toLowerCase().includes(filter.toLowerCase())
   );
+
+  const countryShowButton = (country) => {
+    setSelectedCountry(country);
+  };
 
   const onSearch = (event) => {
     event.preventDefault();
-    setFilter(event.target.value.toLowerCase());
+    setFilter(event.target.value);
+    setSelectedCountry(null);
   };
 
   return (
@@ -29,8 +35,11 @@ const App = () => {
       <form onSubmit={onSearch}>
         find countries <input onChange={onSearch} />
       </form>
-      <FilterCountry filteredCountries={filteredCountries} />
-      <Countries filteredCountries={filteredCountries} />
+      <FilterCountry
+        filteredCountries={filteredCountries}
+        countryShowButton={countryShowButton}
+      />
+      <Countries selectedCountry={selectedCountry} />
     </div>
   );
 };

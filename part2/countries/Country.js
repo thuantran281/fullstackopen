@@ -1,7 +1,7 @@
 import React from "react";
 
-const Countries = ({ filteredCountries }) => {
-  if (filteredCountries.length === 0) {
+const Country = ({ selectedCountry }) => {
+  if (!selectedCountry) {
     return null;
   }
 
@@ -10,17 +10,21 @@ const Countries = ({ filteredCountries }) => {
 
     return (
       <>
-        <h1>{country.name.common}</h1>
-        <p>capital {country.capital}</p>
-        <p>area {country.area}</p>
+        <h1>{selectedCountry.name.common}</h1>
+        <p>capital {selectedCountry.capital}</p>
+        <p>area {selectedCountry.area}</p>
         <h3>languages: </h3>
         <ul>
-          {Object.keys(country.languages).map((key) => (
-            <li key={key}>{country.languages[key]}</li>
+          {Object.keys(selectedCountry.languages).map((key) => (
+            <li key={key}>{selectedCountry.languages[key]}</li>
           ))}
         </ul>
-        <img src={country.flags.svg} alt={country.flags.alt} width="200" />
-        <p>{country.timezones}</p>
+        <img
+          src={selectedCountry.flags.svg}
+          alt={selectedCountry.flags.alt}
+          width="200"
+        />
+        <p>{selectedCountry.timezones}</p>
       </>
     );
   }
