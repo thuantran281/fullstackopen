@@ -55,11 +55,17 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
+const generateId = () => {
+  const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
+  return maxId + 1;
+};
+
 app.post("/api/persons", (request, response) => {
-  const note = request.body;
-  note.id = Math.floor(Math.random() * 9009) + 1000;
-  notes.push(note);
-  console.log(note);
+  const note = {
+    id: generateId(),
+  };
+
+  notes = notes.concat(note);
   response.json(note);
 });
 
